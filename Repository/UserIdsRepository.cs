@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using IRepository;
 
 namespace Repository
 {
-    public class UserIdsRepository : Repository<UserIds, Guid>
+    public class UserIdsRepository : Repository<UserIds, Guid>, IUserIdsRepository
     {
         public override UserIds Query(Guid aggregationRootId)
         {

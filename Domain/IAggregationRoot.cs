@@ -4,7 +4,11 @@ using System.Text;
 
 namespace Domain
 {
-    public interface IAggregationRoot
+    public interface IAggregationRoot<TAggregationRootId> : IEntity<TAggregationRootId>
+    {
+    }
+
+    public interface IAggregationRoot : IAggregationRoot<int>, IEntity
     {
     }
 }

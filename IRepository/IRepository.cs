@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IRepository
 {
-    public interface IRepository<TAggregationRoot, TAggregationRootId> where TAggregationRoot : AggregationRoot<TAggregationRootId>
+    public interface IRepository<TAggregationRoot, TAggregationRootId> where TAggregationRoot : IAggregationRoot<TAggregationRootId>
     {
         TAggregationRoot Query(TAggregationRootId aggregationRootId);
 

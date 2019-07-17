@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace IApplicationService
 {
     public interface IUserApplication
     {
-        bool CreatedUser(long id, string userName, string userPwd);
+        Task<bool> CreatedUser(int id, string userName, string userPwd, string phoneNumber);
 
-        bool UpdateUserPwd(long id, string userPwd);
+        Task<bool> UpdateUserPwd(int id, string userPwd);
     }
 }
