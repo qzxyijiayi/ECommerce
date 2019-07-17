@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Administrator\Desktop\电子商务\Domain\Domain.csproj" />
+    <ProjectReference Include="C:\Users\Administrator\Desktop\电子商务\IApplicationService\IApplicationService.csproj" />
+    <ProjectReference Include="C:\Users\Administrator\Desktop\电子商务\IRepository\IRepository.csproj" />
+  </ItemGroup>
+
+</Project>

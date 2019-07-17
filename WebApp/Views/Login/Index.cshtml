@@ -1,0 +1,208 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script asp-fallback-src="~/js/vue.js" src="//unpkg.com/vue/dist/vue.js"></script>
+    <script asp-fallback-src="~/js/element-ui/lib/index.js" src="//unpkg.com/element-ui@2.10.0/lib/index.js"></script>
+    <link asp-fallback-href="~/js/element-ui/lib/theme-chalk/index.css" href="//unpkg.com/element-ui/lib/theme-chalk/index.css" rel="stylesheet" />
+    <link href="~/css/login.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div id="app">
+        <el-row>
+            <el-col :span="24">
+                <div class="head" shadow="hover">
+                    <div>
+                        <el-card class="head_logo">我是logo</el-card>
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <div class="content">
+                    <el-row>
+                        <el-col :span="4" :offset="14">
+                            <el-card class="content-form" shadow="hover">
+                                <el-tabs :stretch="true" v-model="activeName" @@tab-click="handleClick">
+                                    <el-tab-pane label="登录" name="first">
+                                        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="60px" class="demo-ruleForm">
+                                            <el-form-item label="用户名" prop="userName">
+                                                <el-input placeholder="请输入用户名" v-model="ruleForm.userName" clearable></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="密  码" prop="userPwd">
+                                                <el-input placeholder="请输入密码" v-model="ruleForm.userPwd" show-password></el-input>
+                                            </el-form-item>
+                                            <el-row>
+                                                <el-col :span="16" :offset="2">
+                                                    <el-checkbox v-model="checked" label="记住密码" name="type"></el-checkbox>
+                                                </el-col>
+                                                <el-col :span="6">
+                                                    <el-link type="info" href="/Login/ForgetPassword">忘记密码</el-link>
+                                                </el-col>
+                                            </el-row>
+                                            <br />
+                                            <el-button type="danger" @@click="submitForm('ruleForm')">登录</el-button>
+                                        </el-form>
+                                    </el-tab-pane>
+                                    <el-tab-pane label="注册" name="second">
+                                        <el-form :model="ruleFormSignIn" status-icon :rules="rulesSignIn" ref="ruleFormSignIn" label-width="70px" class="demo-ruleForm">
+                                            <el-form-item label="用户名" prop="userNameSignIn">
+                                                <el-input placeholder="请输入用户名" v-model="ruleFormSignIn.userNameSignIn" clearable></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="密  码" prop="userPwdSignIn1">
+                                                <el-input placeholder="请输入密码" v-model="ruleFormSignIn.userPwdSignIn1" show-password></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="重复密码" prop="userPwdSignIn2">
+                                                <el-input placeholder="请重复输入密码" v-model="ruleFormSignIn.userPwdSignIn2" show-password></el-input>
+                                            </el-form-item>
+                                            <el-button type="danger" @@click="submitFormSignIn('ruleFormSignIn')">注册</el-button>
+                                        </el-form>
+                                    </el-tab-pane>
+                                </el-tabs>
+                            </el-card>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <div class="button"></div>
+            </el-col>
+        </el-row>
+    </div>
+    <script type="text/javascript">
+        var Main = {
+            data() {
+                var validateUserName = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入用户名'));
+                    } else if (value.length > 16) {
+                        callback(new Error('用户名长度不能大于16位'));
+                    } else {
+                        if (this.ruleForm.userName !== '') {
+                            this.$refs.ruleForm.validateField('validateUserName');
+                        }
+                        callback();
+                    }
+                };
+                var validateUserPwd = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入密码'));
+                    } else if (value.length > 16 || value.length < 6) {
+                        callback(new Error('密码长度应在6-16位'));
+                    } else {
+                        if (this.ruleForm.userPwd !== '') {
+                            this.$refs.ruleForm.validateField('validateUserPwd');
+                        }
+                        callback();
+                    }
+                };
+                var validateUserNameSignIn = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入用户名'));
+                    } else if (value.length > 16) {
+                        callback(new Error('用户名长度不能大于16位'));
+                    } else {
+                        if (this.ruleFormSignIn.userNameSignIn !== '') {
+                            this.$refs.ruleFormSignIn.validateField('validateUserNameSignIn');
+                        }
+                        callback();
+                    }
+                };
+                var validateUserPwdSignIn1 = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入密码'));
+                    } else if (value.length > 16 || value.length < 6) {
+                        callback(new Error('密码长度应在6-16位'));
+                    } else {
+                        if (this.ruleFormSignIn.userPwdSignIn1 !== '') {
+                            this.$refs.ruleFormSignIn.validateField('validateUserPwdSignIn1');
+                        }
+                        callback();
+                    }
+                };
+                var validateUserPwdSignIn2 = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请输入重复密码'));
+                    } else if (value !== this.ruleFormSignIn.userPwdSignIn1) {
+                        callback(new Error('两次密码输入不一致'));
+                    }
+                    else {
+                        if (this.ruleFormSignIn.userPwdSignIn2 !== '') {
+                            this.$refs.ruleFormSignIn.validateField('validateUserPwdSignIn2');
+                        }
+                        callback();
+                    }
+                };
+                return {
+                    activeName: 'first',
+                    checked: false,
+                    ruleForm: {
+                        userName: '',
+                        userPwd: '',
+                    },
+                    ruleFormSignIn: {
+                        userNameSignIn: '',
+                        userPwdSignIn1: '',
+                        userPwdSignIn2: ''
+                    },
+                    rules: {
+                        userName: [
+                            { validator: validateUserName, trigger: 'blur' }
+                        ],
+                        userPwd: [
+                            { validator: validateUserPwd, trigger: 'blur' }
+                        ]
+                    },
+                    rulesSignIn: {
+                        userNameSignIn: [
+                            { validator: validateUserNameSignIn, trigger: 'blur' }
+                        ],
+                        userPwdSignIn1: [
+                            { validator: validateUserPwdSignIn1, trigger: 'blur' }
+                        ],
+                        userPwdSignIn2: [
+                            { validator: validateUserPwdSignIn2, trigger: 'blur' }
+                        ]
+                    }
+                };
+            },
+            methods: {
+                handleClick(tab, event) {
+                },
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                submitFormSignIn(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            alert('submit!');
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                }
+            }
+        };
+        var Ctor = Vue.extend(Main)
+        new Ctor().$mount('#app')
+    </script>
+</body>
+
+</html>
