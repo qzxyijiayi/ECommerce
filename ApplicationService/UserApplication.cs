@@ -22,15 +22,15 @@ namespace ApplicationService
 
         public async Task<bool> CreatedUser(int id, string userName, string userPwd, string phoneNumber)
         {
-            var userIds = _userIdsRepository.Query(Guid.NewGuid());
-            if (!userIds.Equals(id)) return await Task.FromResult(false);
+            var userIds = _userIdsRepository.GetById(Guid.NewGuid());
+            if (!userIds.Exists(id)) return await Task.FromResult(false);
             var user = new User(id, userName, userPwd, phoneNumber);
             return await _userRepository.AddAscyn(user) > 0;
         }
 
         public async Task<bool> UpdateUserPwd(int id, string userPwd)
         {
-            var user = _userRepository.Query(id);
+            var user = _userRepository.GetById(id);
             user.UpdatePwd(userPwd);
             return await _userRepository.UpdateAsync(user) > 0;
         }

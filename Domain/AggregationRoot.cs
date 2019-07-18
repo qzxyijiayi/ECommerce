@@ -11,7 +11,7 @@ namespace Domain
     public abstract class AggregationRoot<TAggregationRootId> : Entity<TAggregationRootId>, IAggregationRoot<TAggregationRootId>
     {
         public TAggregationRootId AggregationRootId { get; protected set; }
-        public new TAggregationRootId Id { get; set; }
+        private TAggregationRootId Id { get; set; }
 
         protected AggregationRoot(TAggregationRootId id)
         {
@@ -20,7 +20,8 @@ namespace Domain
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            if (AggregationRootId == null) return 0;
+            return AggregationRootId.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -38,22 +39,6 @@ namespace Domain
     /// </summary>
     public abstract class AggregationRoot : AggregationRoot<int>, IAggregationRoot
     {
-        public new int Id { get; set; }
-
         protected AggregationRoot(int id) : base(id) { }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (this != obj) return false;
-            if (this.GetType() != obj.GetType()) return false;
-            if (this.AggregationRootId != ((AggregationRoot)obj).AggregationRootId) return false;
-            return true;
-        }
-
     }
 }

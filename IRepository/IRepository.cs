@@ -9,9 +9,9 @@ namespace IRepository
 {
     public interface IRepository<TAggregationRoot, TAggregationRootId> where TAggregationRoot : IAggregationRoot<TAggregationRootId>
     {
-        TAggregationRoot Query(TAggregationRootId aggregationRootId);
+        TAggregationRoot GetById(TAggregationRootId aggregationRootId);
 
-        IEnumerable<TAggregationRoot> Query(IList<TAggregationRootId> aggregationRootIds);
+        IEnumerable<TAggregationRoot> GetByIds(IList<TAggregationRootId> aggregationRootIds);
 
         int Add(TAggregationRoot aggregationRoot);
 

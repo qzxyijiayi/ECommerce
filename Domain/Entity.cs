@@ -14,7 +14,8 @@ namespace Domain
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            if (Id == null) return 0;
+            return Id.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -29,21 +30,8 @@ namespace Domain
     /// <summary>
     /// 实体基类，Id为int类型
     /// </summary>
-    public class Entity : IEntity
+    public class Entity : Entity<int>, IEntity
     {
-        public int Id { get; set; }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (this != obj) return false;
-            if (this.GetType() != obj.GetType()) return false;
-            if (this.Id != ((Entity)obj).Id) return false;
-            return true;
-        }
     }
 }

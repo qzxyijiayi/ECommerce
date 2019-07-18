@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,7 +22,8 @@ namespace Domain
 
         public void UpdatePwd(string userPwd)
         {
-            this.Password = userPwd;
+            var pwdMd5 = MD5Helper.GetMD5(userPwd);
+            this.Password = pwdMd5;
         }
     }
 }
