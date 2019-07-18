@@ -20,6 +20,8 @@ namespace IRepository
 
         int Remove(IList<TAggregationRoot> aggregationRoots);
 
+        int Update(TAggregationRoot aggregationRoot);
+
         Task<TAggregationRoot> QueryAsync(TAggregationRootId aggregationRootId);
 
         Task<IEnumerable<TAggregationRoot>> QueryAscyn(IList<TAggregationRootId> aggregationRootIds);
@@ -31,6 +33,8 @@ namespace IRepository
         Task<int> RemoveAscyn(TAggregationRoot aggregationRoot);
 
         Task<int> RemoveAscyn(IList<TAggregationRoot> aggregationRoots);
+
+        Task<int> UpdateAsync(TAggregationRoot aggregationRoot);
 
 
     }

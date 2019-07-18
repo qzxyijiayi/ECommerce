@@ -15,7 +15,6 @@ namespace Repository
     public abstract class Repository<TAggregationRoot, TAggregationRootId> : IRepository<TAggregationRoot, TAggregationRootId>
         where TAggregationRoot : AggregationRoot<TAggregationRootId>
     {
-        private IEnumerable<string> _sqlSnippets = null;
 
         protected IDbConnection Connection
         {
@@ -34,7 +33,7 @@ namespace Repository
         public virtual int Add(TAggregationRoot aggregationRoot)
         {
             var sql = "Insert Into{0} Values({1})";
-            if (_sqlSnippets == null) _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
+            var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
             var sqlSb = new StringBuilder();
             sqlSb = sqlSb.AppendJoin(',', _sqlSnippets);
             return Connection.Execute(string.Format(sql, TableName, sqlSb.ToString()), aggregationRoot, Transaction);
@@ -53,7 +52,7 @@ namespace Repository
         public virtual async Task<int> AddAscyn(TAggregationRoot aggregationRoot)
         {
             var sql = "Insert Into{0} Values({1})";
-            if (_sqlSnippets == null) _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
+            var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
             var sqlSb = new StringBuilder();
             sqlSb = sqlSb.AppendJoin(',', _sqlSnippets);
             return await Connection.ExecuteAsync(string.Format(sql, TableName, sqlSb.ToString()), aggregationRoot, Transaction);
@@ -126,6 +125,26 @@ namespace Repository
                 i += await RemoveAscyn(aggregationRoot);
             }
             return i;
+        }
+
+        public virtual int Update(TAggregationRoot aggregationRoot)
+        {
+            using (Connection)
+            {
+                var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
+                var sql = $"Update {TableName} Set {_sqlSnippets} Where Id = @AggregationRootId";
+                return Connection.Execute(sql, aggregationRoot);
+            }
+        }
+
+        public virtual async Task<int> UpdateAsync(TAggregationRoot aggregationRoot)
+        {
+            using (Connection)
+            {
+                var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
+                var sql = $"Update {TableName} Set {_sqlSnippets} Where Id = @AggregationRootId";
+                return await Connection.ExecuteAsync(sql, aggregationRoot);
+            }
         }
     }
 }
