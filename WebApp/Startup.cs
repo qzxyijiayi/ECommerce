@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Infrastructur;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,7 @@ namespace WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigSettings.SqlConnationString = Configuration.GetConnectionString("DefaultConnection");
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;

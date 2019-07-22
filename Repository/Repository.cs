@@ -34,6 +34,10 @@ namespace Repository
         {
             using (Connection)
             {
+                if (aggregationRoot is ICreationDate)
+                {
+                    ((ICreationDate)aggregationRoot).CreationTime = DateTime.Now;
+                }
                 var sql = "Insert Into{0} Values({1})";
                 var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
                 var sqlSb = new StringBuilder();
@@ -49,6 +53,10 @@ namespace Repository
                 var i = 0;
                 foreach (var aggregationRoot in aggregationRoots)
                 {
+                    if (aggregationRoot is ICreationDate)
+                    {
+                        ((ICreationDate)aggregationRoot).CreationTime = DateTime.Now; ;
+                    }
                     var sql = "Insert Into{0} Values({1})";
                     var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
                     var sqlSb = new StringBuilder();
@@ -63,6 +71,10 @@ namespace Repository
         {
             using (Connection)
             {
+                if (aggregationRoot is ICreationDate)
+                {
+                    ((ICreationDate)aggregationRoot).CreationTime = DateTime.Now;
+                }
                 var sql = "Insert Into{0} Values({1})";
                 var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
                 var sqlSb = new StringBuilder();
@@ -77,6 +89,10 @@ namespace Repository
                 var i = 0;
                 foreach (var aggregationRoot in aggregationRoots)
                 {
+                    if (aggregationRoot is ICreationDate)
+                    {
+                        ((ICreationDate)aggregationRoot).CreationTime = DateTime.Now;
+                    }
                     var sql = "Insert Into{0} Values({1})";
                     var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
                     var sqlSb = new StringBuilder();
@@ -177,6 +193,10 @@ namespace Repository
         {
             using (Connection)
             {
+                if(aggregationRoot is IModificationDate)
+                {
+                    ((IModificationDate)aggregationRoot).ModificationTime = DateTime.Now;
+                }
                 var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
                 var sql = $"Update {TableName} Set {_sqlSnippets} Where Id = @AggregationRootId";
                 return Connection.Execute(sql, aggregationRoot);
@@ -187,6 +207,10 @@ namespace Repository
         {
             using (Connection)
             {
+                if (aggregationRoot is IModificationDate)
+                {
+                    ((IModificationDate)aggregationRoot).ModificationTime = DateTime.Now;
+                }
                 var _sqlSnippets = aggregationRoot.GetType().GetProperties().Select(pro => $"{pro.Name} = @{pro.GetValue(aggregationRoot)}");
                 var sql = $"Update {TableName} Set {_sqlSnippets} Where Id = @AggregationRootId";
                 return await Connection.ExecuteAsync(sql, aggregationRoot);

@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Infrastructur
 {
-    public static class ConfigSettings
+    public interface IModificationDate
     {
-        public static string SqlConnationString = string.Empty;
+        DateTime ModificationTime { get; set; }
     }
 }
