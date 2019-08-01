@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IRepository
 {
-    public interface IUserRepository : IRepository<User, int>
+    public interface IAccountRepository : IRepository<Account, int>
     {
 
     }

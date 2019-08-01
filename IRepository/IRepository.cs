@@ -9,31 +9,15 @@ namespace IRepository
 {
     public interface IRepository<TAggregationRoot, TAggregationRootId> where TAggregationRoot : IAggregationRoot<TAggregationRootId>
     {
-        TAggregationRoot GetById(TAggregationRootId aggregationRootId);
+        Task<TAggregationRoot> QueryAsync(dynamic condition);
 
-        IEnumerable<TAggregationRoot> GetByIds(IList<TAggregationRootId> aggregationRootIds);
+        Task<TAggregationRoot> GetByIdAsync(TAggregationRootId aggregationRootId);
 
-        int Add(TAggregationRoot aggregationRoot);
+        Task<IEnumerable<TAggregationRoot>> GetByIdsAsync(IList<TAggregationRootId> aggregationRootIds);
 
-        int Add(IList<TAggregationRoot> aggregationRoot);
+        Task<int> AddAsync(TAggregationRoot aggregationRoot);
 
-        int Remove(TAggregationRoot aggregationRoot);
-
-        int Remove(IList<TAggregationRoot> aggregationRoots);
-
-        int Update(TAggregationRoot aggregationRoot);
-
-        Task<TAggregationRoot> QueryAsync(TAggregationRootId aggregationRootId);
-
-        Task<IEnumerable<TAggregationRoot>> QueryAscyn(IList<TAggregationRootId> aggregationRootIds);
-
-        Task<int> AddAscyn(TAggregationRoot aggregationRoot);
-
-        Task<int> AddAscyn(IList<TAggregationRoot> aggregationRoot);
-
-        Task<int> RemoveAscyn(TAggregationRoot aggregationRoot);
-
-        Task<int> RemoveAscyn(IList<TAggregationRoot> aggregationRoots);
+        Task<int> RemoveAsync(TAggregationRoot aggregationRoot);
 
         Task<int> UpdateAsync(TAggregationRoot aggregationRoot);
 
