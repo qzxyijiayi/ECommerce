@@ -6,6 +6,6 @@ namespace Infrastructur
 {
     public static class ConfigSettings
     {
-        public static string SqlConnationString = string.Empty;
+        public static string SqlConnationString = "";
     }
 }

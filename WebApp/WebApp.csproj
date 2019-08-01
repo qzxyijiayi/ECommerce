@@ -233,7 +233,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IApplicationService\IApplicationService.csproj" />
-    <ProjectReference Include="..\Infrastructur\Infrastructur.csproj" />
   </ItemGroup>
 
 </Project>
