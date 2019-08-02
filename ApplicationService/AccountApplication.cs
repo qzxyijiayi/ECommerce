@@ -1,6 +1,7 @@
 ﻿using Domain;
 using IApplicationService;
 using IDomainService;
+using Infrastructur;
 using IRepository;
 using System;
 using System.Collections.Generic;
@@ -21,18 +22,34 @@ namespace ApplicationService
             _userRepository = repository;
         }
 
-        public async Task<bool> CreatedAccount(int id, string userName, string userPwd, string phoneNumber)
+        public async Task<CommandResult> CreatedAccount(int id, string accountName, string password, string phoneNumber)
         {
-            var user = _accountService.CreateAccount(id, userName, userPwd, phoneNumber);
-            return await _userRepository.AddAsync(user) > 0;
+            try
+            {
+                var account = _accountService.CreateAccount(id, accountName, password, phoneNumber);
+                if (await _userRepository.AddAsync(account) > 0) return CommandResult.SuccessResult("注册成功", account);
+                else return CommandResult.Failed("注册失败");
+            }
+            catch (Exception ex)
+            {
+                return CommandResult.Failed(ex.ToString());
+            }
         }
 
-        public async Task<bool> ChangeAccountPassword(int id, string userPwd)
+        public async Task<CommandResult> ChangeAccountPassword(int id, string password)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null) throw new Exception("没用该用户");
-            user.UpdatePwd(userPwd);
-            return await _userRepository.UpdateAsync(user) > 0;
+            try
+            {
+                var account = await _userRepository.GetByIdAsync(id);
+                if (account == null) throw new Exception("没有该用户");
+                account.UpdatePassword(password);
+                if (await _userRepository.UpdateAsync(account) > 0) return CommandResult.SuccessResult("修改成功", account);
+                else return CommandResult.Failed("修改失败");
+            }
+            catch (Exception ex)
+            {
+                return CommandResult.Failed(ex.ToString());
+            }
         }
     }
 }

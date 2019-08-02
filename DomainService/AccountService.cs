@@ -27,10 +27,6 @@ namespace DomainService
             {
                 throw new Exception("手机号码已注册");
             }
-            if (userPwd.Length < 6 || userPwd.Length > 16)
-            {
-                throw new Exception("账号密码必须大于6位数小于16位数");
-            }
 
             return new Account(id, userName, userPwd, phoneNumber);
         }
