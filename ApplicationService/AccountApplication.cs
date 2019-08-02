@@ -22,6 +22,14 @@ namespace ApplicationService
             _userRepository = repository;
         }
 
+        /// <summary>
+        /// 注册账户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="accountName"></param>
+        /// <param name="password"></param>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
         public async Task<CommandResult> CreatedAccount(int id, string accountName, string password, string phoneNumber)
         {
             try
@@ -36,6 +44,12 @@ namespace ApplicationService
             }
         }
 
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<CommandResult> ChangeAccountPassword(int id, string password)
         {
             try
@@ -43,8 +57,8 @@ namespace ApplicationService
                 var account = await _userRepository.GetByIdAsync(id);
                 if (account == null) throw new Exception("没有该用户");
                 account.UpdatePassword(password);
-                if (await _userRepository.UpdateAsync(account) > 0) return CommandResult.SuccessResult("修改成功", account);
-                else return CommandResult.Failed("修改失败");
+                if (await _userRepository.UpdateAsync(account) > 0) return CommandResult.SuccessResult("修改密码成功", account);
+                else return CommandResult.Failed("修改密码失败");
             }
             catch (Exception ex)
             {

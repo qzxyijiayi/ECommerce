@@ -10,6 +10,9 @@ namespace Domain
     /// <typeparam name="TAggregationRootId"></typeparam>
     public abstract class AggregationRoot<TAggregationRootId> : Entity<TAggregationRootId>, IAggregationRoot<TAggregationRootId>
     {
+        /// <summary>
+        /// 聚合根Id
+        /// </summary>
         public TAggregationRootId AggregationRootId { get; protected set; }
         private TAggregationRootId Id { get; set; }
 

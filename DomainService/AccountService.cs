@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace DomainService
 {
+    /// <summary>
+    /// 账户领域服务
+    /// </summary>
     public class AccountService : IAccountService
     {
         private IAccountRepository _accountRepository;
@@ -17,18 +20,26 @@ namespace DomainService
             _accountRepository = accountRepository;
         }
 
-        public Account CreateAccount(int id, string userName, string userPwd, string phoneNumber)
+        /// <summary>
+        /// 创建账户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="accountName"></param>
+        /// <param name="userPwd"></param>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
+        public Account CreateAccount(int id, string accountName, string password, string phoneNumber)
         {
-            if (_accountRepository.QueryAsync(new { UserName = userName }) != null)
+            if (_accountRepository.QueryAsync(new { Name = accountName }) != null)
             {
-                throw new Exception("用户名已注册");
+                throw new Exception("用户名已被注册");
             }
             if (_accountRepository.QueryAsync(new { PhoneNumber = phoneNumber }) != null)
             {
-                throw new Exception("手机号码已注册");
+                throw new Exception("手机号码已被注册");
             }
 
-            return new Account(id, userName, userPwd, phoneNumber);
+            return new Account(id, accountName, password, phoneNumber);
         }
     }
 }

@@ -6,8 +6,18 @@ using System.Text;
 
 namespace Domain
 {
+    /// <summary>
+    /// 账户聚合根
+    /// </summary>
     public class Account : AggregationRoot
     {
+        /// <summary>
+        /// 创建账户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <param name="phoneNumber"></param>
         public Account(int id, string name, string password, string phoneNumber) : base(id)
         {
             Assert.IsDefault("账户Id", id);
@@ -24,12 +34,25 @@ namespace Domain
             PhoneNumber = phoneNumber;
         }
 
+        /// <summary>
+        /// 账户名
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// 账户密码
+        /// </summary>
         public string Password { get; private set; }
 
+        /// <summary>
+        /// 账户手机号
+        /// </summary>
         public string PhoneNumber { get; private set; }
 
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="password"></param>
         public void UpdatePassword(string password)
         {
             Assert.IsNullOrWhiteSpace("账户密码", password);

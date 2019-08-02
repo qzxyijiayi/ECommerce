@@ -13,6 +13,11 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
+    /// <summary>
+    /// 仓储基类
+    /// </summary>
+    /// <typeparam name="TAggregationRoot"></typeparam>
+    /// <typeparam name="TAggregationRootId"></typeparam>
     public abstract class Repository<TAggregationRoot, TAggregationRootId> : IRepository<TAggregationRoot, TAggregationRootId>
         where TAggregationRoot : AggregationRoot<TAggregationRootId>
     {
@@ -29,6 +34,11 @@ namespace Repository
 
         public string TableName { private get; set; } = typeof(TAggregationRoot).Name;
 
+        /// <summary>
+        /// 添加聚合根
+        /// </summary>
+        /// <param name="aggregationRoot"></param>
+        /// <returns></returns>
         public virtual async Task<int> AddAsync(TAggregationRoot aggregationRoot)
         {
             using (Connection)
@@ -41,6 +51,11 @@ namespace Repository
             }
         }
 
+        /// <summary>
+        /// 通过聚合根Id获取聚合根
+        /// </summary>
+        /// <param name="aggregationRootIds"></param>
+        /// <returns></returns>
         public virtual async Task<IEnumerable<TAggregationRoot>> GetByIdsAsync(IList<TAggregationRootId> aggregationRootIds)
         {
             using (Connection)
@@ -50,6 +65,11 @@ namespace Repository
             }
         }
 
+        /// <summary>
+        /// 通过聚合根Id集合获取聚合根
+        /// </summary>
+        /// <param name="aggregationRootId"></param>
+        /// <returns></returns>
         public virtual async Task<TAggregationRoot> GetByIdAsync(TAggregationRootId aggregationRootId)
         {
             using (Connection)
@@ -59,11 +79,27 @@ namespace Repository
             }
         }
 
-        public Task<TAggregationRoot> QueryAsync(dynamic condition)
+        /// <summary>
+        /// 通过条件获取聚合根
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public virtual async Task<TAggregationRoot> QueryAsync(object condition)
         {
-            throw new NotImplementedException();
+            using (Connection)
+            {
+                var sqlFragments = condition.GetType().GetProperties().Select(u => string.Format("{0} = @{0}", u.Name));
+                var sqlFragmentJoin = string.Join(" And ", sqlFragments);
+                var sql = $"SELECT * FROM {typeof(TAggregationRoot).Name} Where {sqlFragmentJoin}";
+                return await Connection.QueryFirstOrDefaultAsync<TAggregationRoot>(sql, condition, null);
+            }
         }
 
+        /// <summary>
+        /// 移除聚合根
+        /// </summary>
+        /// <param name="aggregationRoot"></param>
+        /// <returns></returns>
         public virtual async Task<int> RemoveAsync(TAggregationRoot aggregationRoot)
         {
             using (Connection)
@@ -73,6 +109,11 @@ namespace Repository
             }
         }
 
+        /// <summary>
+        /// 修改聚合根
+        /// </summary>
+        /// <param name="aggregationRoot"></param>
+        /// <returns></returns>
         public virtual async Task<int> UpdateAsync(TAggregationRoot aggregationRoot)
         {
             using (Connection)

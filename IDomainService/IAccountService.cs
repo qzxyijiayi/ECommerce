@@ -8,6 +8,6 @@ namespace IDomainService
 {
     public interface IAccountService
     {
-        Account CreateAccount(int id, string userName, string userPwd, string phoneNumber);
+        Account CreateAccount(int id, string accountName, string password, string phoneNumber);
     }
 }

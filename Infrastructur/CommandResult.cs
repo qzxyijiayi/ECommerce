@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Infrastructur
 {
+    /// <summary>
+    /// 应用层统一返回结果
+    /// </summary>
     public class CommandResult
     {
         public CommandResult(bool success, string msg)
@@ -18,8 +21,14 @@ namespace Infrastructur
             Date = date;
         }
 
+        /// <summary>
+        /// 是否成功
+        /// </summary>
         public bool Success { get; private set; }
 
+        /// <summary>
+        /// 异常说明
+        /// </summary>
         public string Msg { get; private set; }
 
         public object Date { get; private set; }
