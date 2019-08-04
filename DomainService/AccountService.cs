@@ -11,7 +11,7 @@ namespace DomainService
     /// <summary>
     /// 账户领域服务
     /// </summary>
-    public class AccountService : IAccountService
+    public class AccountService : IAccountDomainService
     {
         private IAccountRepository _accountRepository;
 

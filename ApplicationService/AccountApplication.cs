@@ -14,7 +14,7 @@ namespace ApplicationService
     {
         private IAccountRepository _userRepository;
 
-        private IAccountService _accountService;
+        private IAccountDomainService _accountService;
 
 
         public AccountApplication(IAccountRepository repository)

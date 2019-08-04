@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IDomainService
 {
-    public interface IAccountService
+    public interface IAccountDomainService
     {
         Account CreateAccount(int id, string accountName, string password, string phoneNumber);
     }
