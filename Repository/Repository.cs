@@ -52,7 +52,7 @@ namespace Repository
         }
 
         /// <summary>
-        /// 通过聚合根Id获取聚合根
+        /// 通过聚合根Id集合获取聚合根
         /// </summary>
         /// <param name="aggregationRootIds"></param>
         /// <returns></returns>
@@ -66,7 +66,7 @@ namespace Repository
         }
 
         /// <summary>
-        /// 通过聚合根Id集合获取聚合根
+        /// 通过聚合根Id获取聚合根
         /// </summary>
         /// <param name="aggregationRootId"></param>
         /// <returns></returns>

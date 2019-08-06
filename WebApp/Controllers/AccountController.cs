@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IApplicationService;
+using Infrastructur.InputDto.Account;
+using Infrastructur.OutDto.Account;
+using IQueryService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.Controllers
@@ -11,18 +14,25 @@ namespace WebApp.Controllers
     {
         private IAccountApplication _accountApplication;
 
-        public AccountController(IAccountApplication accountApplication)
+        private IAccountQueryService _accountQueryService;
+
+        private IGetId _getId;
+
+        public AccountController(IAccountApplication accountApplication, IAccountQueryService accountQueryService, IGetId getId)
         {
             _accountApplication = accountApplication;
+            _accountQueryService = accountQueryService;
+            _getId = getId;
         }
 
         /// <summary>
         /// 注册
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Register(string accountName, string password, string phoneNumber)
+        public async Task<IActionResult> Register(RegisterInputDto registerInputDto)
         {
-            var result = await _accountApplication.CreatedAccount(1, accountName, password, phoneNumber);
+            var id = _getId.GetId(EntityType.Account);
+            var result = await _accountApplication.CreatedAccount(id, registerInputDto.AccountName, registerInputDto.Password, registerInputDto.PhoneNumber);
             if (result.Success) return RedirectToAction("Index", "Home");
             return RedirectToAction("Index", "Error");
         }
@@ -31,8 +41,13 @@ namespace WebApp.Controllers
         /// 登录
         /// </summary>
         /// <returns></returns>
-        public IActionResult Login(string userName, string userPwd, bool rmemberPwd = false)
+        public async Task<IActionResult> Login(LoginInputDto loginInputDto)
         {
+            var result = await _accountQueryService.Login(loginInputDto.AccountName, loginInputDto.AccountName);
+            if (result.LoginType == LoginType.NotLoggedSuccessfully)
+            {
+                return Json(result);
+            }
             return View();
         }
 

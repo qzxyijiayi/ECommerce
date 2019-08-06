@@ -16,10 +16,10 @@ namespace ApplicationService
 
         private IAccountDomainService _accountService;
 
-
-        public AccountApplication(IAccountRepository repository)
+        public AccountApplication(IAccountRepository userRepository, IAccountDomainService accountService)
         {
-            _userRepository = repository;
+            _userRepository = userRepository;
+            _accountService = accountService;
         }
 
         /// <summary>

@@ -233,6 +233,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IApplicationService\IApplicationService.csproj" />
+    <ProjectReference Include="..\IQueryService\IQueryService.csproj" />
   </ItemGroup>
 
 </Project>
